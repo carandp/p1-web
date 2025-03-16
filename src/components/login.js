@@ -1,8 +1,10 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { FormattedMessage } from 'react-intl';
 
 function Login() {
     const [formValues, setFormValues] = useState({ username: "", password: "" });
@@ -38,39 +40,41 @@ function Login() {
     }
 
     return (
-        <div>
-            <h1> Adopta un Robot con Robot Lovers! </h1>
-            <div className="container">
-                <hr></hr>
-                <img src="https://i.ibb.co/hJPB0mNq/Captura-de-Pantalla-2025-03-14-a-la-s-8-05-48-a-m.png" alt="Imagen Robots..." />
-                <hr></hr>
-            </div>
+        <div className="container">
             <div className="container d-flex justify-content-center">
-                <Form style={{ width: 600 }} >
-                    <h2> Inicio de sesión </h2>
-                    <Form.Group controlId="formBasicEmail">
-                        <h5>Nombre de usuario</h5>
-                        <Form.Control type="username" placeholder="Ingrese su usuario" style={{ width: 300, borderColor: validationStates.loginState ? "" : "red" }} onChange={handleUsernameChange} value={formValues.username} />
-                    </Form.Group>
+                <div className="card" style={{ width: '100%', maxWidth: 500, height: 350, border:"0px white"}}>
+                    <div className="card-body">
+                        <Form>
+                            <h2> <strong> <FormattedMessage id="login-title"/> </strong> </h2>
+                            <div style={{marginTop: "20px"}}></div>
+                            <Form.Group controlId="formBasicEmail">
+                                <p style={{textAlign: "left", marginBottom: 4, marginTop: 4}}><strong><FormattedMessage id="login-user"/></strong></p>
+                                <Form.Control type="username" style={{ width: '100%', borderRadius: 0, borderColor: validationStates.loginState ? "" : "red", backgroundColor: "lightgrey" }} onChange={handleUsernameChange} value={formValues.username} />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="formBasicPassword">
+                                <p style={{textAlign: "left", marginBottom: 4, marginTop: 4}}><strong><FormattedMessage id="login-password"/></strong></p>
+                                <Form.Control type="password" style={{ width: '100%', borderRadius: 0, borderColor: validationStates.loginState ? "" : "red", backgroundColor: "lightgrey" }} onChange={handlePasswordChange} value={formValues.password} />
+                            </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <h5>Contraseña</h5>
-                        <Form.Control type="password" placeholder="Contraseña" style={{ width: 300, borderColor: validationStates.loginState ? "" : "red" }} onChange={handlePasswordChange} value={formValues.password} />
-                    </Form.Group>
-
-                    <Row>
-                        <Button variant="primary" onClick={clickSubmit}>
-                                Submit
-                        </Button>
-                        <Button variant="danger" onClick={clickCancel}>
-                                Cancelar
-                        </Button>
-                    </Row>
-                    {!validationStates.loginState && <p style={{ color: "red", fontWeight: "bold", fontSize:20}}>Error de autenticación. Revise sus credenciales</p>}
-                </Form>
+                            <Row>
+                                <Col>
+                                    <Button variant="primary" onClick={clickSubmit} className="w-100" style={{ borderRadius: 0 }}>
+                                        <strong><FormattedMessage id="login-button-login"/></strong>
+                                    </Button>
+                                </Col>
+                                <Col>
+                                    <Button variant="danger" onClick={clickCancel} className="w-100" style={{ borderRadius: 0 }}>
+                                        <span style={{ color: "black" }}><strong><FormattedMessage id="login-button-cancel"/></strong></span>
+                                    </Button>
+                                </Col>
+                            </Row>
+                            {!validationStates.loginState && <p style={{ color: "red", fontWeight: "bold", fontSize: 15, textAlign: "left", marginBottom: 4, marginTop: 4}}><FormattedMessage id="login-error"/></p>}
+                        </Form>
+                    </div>
+                </div>
             </div>
         </div>
     );
-}
+} 
 
 export default Login;

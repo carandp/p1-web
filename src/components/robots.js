@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import Col from "react-bootstrap/Col";
-import Table from "react-bootstrap/Table";
+import { FormattedMessage } from "react-intl";
 
 function Robots() {
     const [robots, setRobots] = useState([]);
@@ -21,37 +20,27 @@ function Robots() {
     }, []);
 
     return (
-        <div>
-            <h1> Adopta un Robot con Robot Lovers! </h1>
-            <div className="container">
-                <hr></hr>
-                <img src="https://i.ibb.co/hJPB0mNq/Captura-de-Pantalla-2025-03-14-a-la-s-8-05-48-a-m.png" alt="Imagen Robots..." />
-                <hr></hr>
-            </div>
-            <div className="container" style={{ display: "flex", gap: 15, alignItems: "center", justifyContent: "center"}}>
-                <Col>
-                    <Table className="table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Modelo</th>
-                                <th>Empresa Fabricante</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {robots.map((robot) => (
-                                <tr key={`${robot.id}`} onClick={() => handleRowClick(robot)}>
-                                    <td>{robot.id}</td>
-                                    <td>{robot.nombre}</td>
-                                    <td>{robot.modelo}</td>
-                                    <td>{robot.empresaFabricante}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </Col>
-            </div>
+        <div className="container" style={{ display: "flex", gap: 15, alignItems: "center", justifyContent: "center", width: "1080px"}}>
+            <table className="table" width={"100%"}>
+                <thead>
+                    <tr>
+                        <th scope="col" style={{backgroundColor: "black", color: "white"}}>ID</th>
+                        <th scope="col" style={{backgroundColor: "black", color: "white"}}><FormattedMessage id="list-name"/></th>
+                        <th scope="col" style={{backgroundColor: "black", color: "white"}}><FormattedMessage id="list-model"/></th>
+                        <th scope="col" style={{backgroundColor: "black", color: "white"}}><FormattedMessage id="list-company"/></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {robots.map((robot) => (
+                        <tr key={`${robot.id}`} onClick={() => handleRowClick(robot)}>
+                            <th scope="row">{robot.id}</th>
+                            <td>{robot.nombre}</td>
+                            <td>{robot.modelo}</td>
+                            <td>{robot.empresaFabricante}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 }

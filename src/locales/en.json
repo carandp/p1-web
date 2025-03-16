@@ -1,0 +1,20 @@
+{
+    "footer": "Contact us +57 3102105253 - info@robot-lovers.com - @robot-lovers",
+
+    "header": "Adopt a Robot with Robot Lovers!",
+
+    "login-title": "User login",
+    "login-user": "Username",
+    "login-password": "Password",
+    "login-button-login": "Login",
+    "login-button-cancel": "Cancel",
+    "login-error": "Failed to login. Check credentials",
+
+    "list-name": "Name",
+    "list-model": "Model",
+    "list-company": "Building Company",
+
+    "detail-builddate": "Fabrication Date",
+    "detail-processing": "Processing Power",
+    "detail-humour": "Humour"
+}

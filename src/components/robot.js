@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Col from "react-bootstrap/Col";
-import Table from "react-bootstrap/Table";
+import { FormattedMessage } from "react-intl";
 
 function Robot() {
     const { id } = useParams();
     const [robots, setRobots] = useState([]);
+    const [robot, setRobot] = useState([]);
     
     const navigate = useNavigate();
 
@@ -18,59 +18,58 @@ function Robot() {
     fetch('http://localhost:3001/robots')
         .then(response => response.json())
         .then(data => {
-        setRobots(data);
+            setRobots(data);
+            const selectedRobot = data.find(robot => robot.id === parseInt(id));
+            setRobot(selectedRobot);
         });
-    }, []);
+    }, [id]);
 
     return (
-        <div>
-            <h1> Adopta un Robot con Robot Lovers! </h1>
-            <div className="container">
-                <hr></hr>
-                <img src="https://i.ibb.co/hJPB0mNq/Captura-de-Pantalla-2025-03-14-a-la-s-8-05-48-a-m.png" alt="Imagen Robots..." />
-                <hr></hr>
-            </div>
-            <div className="container" style={{ display: "flex", gap: 15, alignItems: "center", justifyContent: "center"}}>
-                <Col>
-                    <Table className="table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Modelo</th>
-                                <th>Empresa Fabricante</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {robots.map((robot) => (
-                                <tr key={`${robot.id}`} onClick={() => handleRowClick(robot)}>
-                                    <td>{robot.id}</td>
-                                    <td>{robot.nombre}</td>
-                                    <td>{robot.modelo}</td>
-                                    <td>{robot.empresaFabricante}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </Col>
-                <Col>
-                    {robots.find(robot => robot.id === parseInt(id)) ? (
-                        <div>
-                            <div className="card">
-                                <img className="card-img-top" src={robots.find(robot => robot.id === parseInt(id)).imagen} width={80} alt="..."/> 
-                                <div className="card-body">
-                                    <h4 className="card-title">{robots.find(robot => robot.id === parseInt(id)).nombre}</h4>
-                                    <p className="card-text">Año Fabricacion: {robots.find(robot => robot.id === parseInt(id)).añoFabricacion}</p>
-                                    <p className="card-text">Capacidad de Procesamiento: {robots.find(robot => robot.id === parseInt(id)).capacidadProcesamiento}</p>
-                                    <p className="card-text">Humor: {robots.find(robot => robot.id === parseInt(id)).humor}</p>
-                                </div>
-                            </div>
+        <div className="container" style={{ display: "flex", gap: 15, alignItems: "center", justifyContent: "center", width: "1080px"}}>
+            <table className="table" width={"100%"}>
+                <thead>
+                    <tr>
+                        <th scope="col" style={{backgroundColor: "black", color: "white"}}>ID</th>
+                        <th scope="col" style={{backgroundColor: "black", color: "white"}}><FormattedMessage id="list-name"/></th>
+                        <th scope="col" style={{backgroundColor: "black", color: "white"}}><FormattedMessage id="list-model"/></th>
+                        <th scope="col" style={{backgroundColor: "black", color: "white"}}><FormattedMessage id="list-company"/></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {robots.map((robot) => (
+                        <tr key={`${robot.id}`} onClick={() => handleRowClick(robot)}>
+                            <th scope="row">{robot.id}</th>
+                            <td>{robot.nombre}</td>
+                            <td>{robot.modelo}</td>
+                            <td>{robot.empresaFabricante}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            {robots.find(robot => robot.id === parseInt(id)) ? (
+                    <div className="container d-flex justify-content-center">
+                    <div className="card" style={{ height: "400px", width: "400px", borderWidth: "2px", borderColor:"black", borderRadius: "0px"}}>
+                        <div className="card-body">
+                            <h5 className="card-title"><strong>{robot.nombre}</strong></h5>
+                            <img 
+                                className="card-img-top" 
+                                src={robots.find(robot => robot.id === parseInt(id)).imagen.replace(
+                                    "github.com",
+                                    "raw.githubusercontent.com"
+                                ).replace("/blob/", "/")} 
+                                alt="..."
+                                style={{maxWidth: 200, borderRadius: "0px", border: "2px solid black"}}
+                            />
+                            <div style={{marginTop: "4px"}}></div>
+                            <p className="card-text" style={{textAlign: "left", marginLeft: "20px", marginBottom: "4px"}}>→ <strong><FormattedMessage id="detail-builddate"/>:</strong> {robot.añoFabricacion}</p>
+                            <p className="card-text" style={{textAlign: "left", marginLeft: "20px", marginBottom: "4px"}}>→ <strong><FormattedMessage id="detail-processing"/>:</strong> {robot.capacidadProcesamiento}</p>
+                            <p className="card-text" style={{textAlign: "left", marginLeft: "20px", marginBottom: "4px"}}>→ <strong><FormattedMessage id="detail-humour"/>:</strong> {robot.humor}</p>
                         </div>
-                    ) : (
-                        <h2>Robot no encontrado</h2>
-                    )}
-                </Col>
-            </div>
+                    </div>
+                </div>
+            ) : (
+                <h2>Robot no encontrado</h2>
+            )}
         </div>
     );
 }
